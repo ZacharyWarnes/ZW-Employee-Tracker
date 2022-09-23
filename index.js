@@ -1,4 +1,5 @@
 const mysql = require('mysql2');
+const utils = require('util');
 
 // Connect to database
 const db = mysql.createConnection(
@@ -7,11 +8,13 @@ const db = mysql.createConnection(
       // MySQL username,
       user: 'root',
       // MySQL password
-      password: 'passwurd1234!',
+      password: 'password',
       database: 'employees_db'
     },
-    console.log(`Connected to the employees_db database.`)
+    // console.log(`Connected to the employees_db database.`)
   );
+
+  db.query = utils.promisify(db.query);
 
 // View all departments
 // SELECT * FROM department
