@@ -1,3 +1,18 @@
+const mysql = require('mysql2');
+
+// Connect to database
+const db = mysql.createConnection(
+    {
+      host: 'localhost',
+      // MySQL username,
+      user: 'root',
+      // MySQL password
+      password: 'passwurd1234!',
+      database: 'employees_db'
+    },
+    console.log(`Connected to the employees_db database.`)
+  );
+
 // View all departments
 // SELECT * FROM department
 
