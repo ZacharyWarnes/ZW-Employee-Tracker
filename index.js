@@ -35,6 +35,10 @@ const db = mysql.createConnection(
 
 //Create a new role 
 
+function createRole() {
+
+}
+
 // Get the existing departments from the 'department' table
 
     //THEN prompt the user for the "title", "salary", and "department" for the role 
@@ -45,3 +49,12 @@ const db = mysql.createConnection(
         // replace all examples above w/ question marks for query method
 
             // THEN ask the user what they want to do next
+
+const createPost = async () => {
+
+    const department = await db.query("SELECT * FROM department")
+
+    console.log(department);
+}
+
+createPost();
