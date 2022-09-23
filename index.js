@@ -8,7 +8,7 @@ const db = mysql.createConnection(
       // MySQL username,
       user: 'root',
       // MySQL password
-      password: 'password',
+      password: 'passwurd1234!',
       database: 'employees_db'
     },
     // console.log(`Connected to the employees_db database.`)
@@ -50,11 +50,11 @@ function createRole() {
 
             // THEN ask the user what they want to do next
 
-const createPost = async () => {
+const createDepartment = async () => {
 
     const department = await db.query("SELECT * FROM department")
 
     console.log(department);
 }
 
-createPost();
+createDepartment();
