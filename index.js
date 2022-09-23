@@ -1,5 +1,6 @@
 const mysql = require('mysql2');
 const utils = require('util');
+// const inquirer = require('inquirer');
 
 // Connect to database
 const db = mysql.createConnection(
@@ -54,7 +55,25 @@ const createDepartment = async () => {
 
     const department = await db.query("SELECT * FROM department")
 
-    console.log(department);
+    const departmentChoices = department.determinePacket(department => ({
+        name: department.name,
+        value: department.id
+    }));
+
+    // console.log(department);
+    // console.log(departmentChoices)
+
+    // const answers = await inquirer.prompt([
+    //     {
+    //         message: "What is the name of this department?",
+    //         name: "name",
+    //         input: "input"
+    //     },
+    // ]);
+
+    // console.log(answers);
+
+    //At about 25 minutes on SQL DAY 3 vid
 }
 
 createDepartment();
