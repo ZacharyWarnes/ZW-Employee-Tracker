@@ -1,5 +1,5 @@
 USE employees_db; 
 
-INSERT INTO department (id, name)
+INSERT INTO department (name)
     VALUES 
-        ("1", "Admin");
+        ("Admin");
