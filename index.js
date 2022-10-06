@@ -86,7 +86,6 @@ const db = mysql.createConnection(
 
 // View all departments
 viewDepartments = () => {
-    // SELECT * FROM department
     const sql = `SELECT * FROM department`;
     db.query(sql, (err, rows) => {
         if (err) throw err;
@@ -99,12 +98,27 @@ viewDepartments = () => {
 
 // View all roles 
 viewRoles = () => {
-    const sql = `SELECT role.id, role.title, role.`
-}
-//SELECT * FROM role
+    const sql = `SELECT role.id, role.title, role.department_id , role.salary`
+    db.query(sql, (err, rows) => {
+        if (err) throw err;
+        console.table(rows);
+        userPrompts();
+    });
+};
+
 
 //View all employees
-//SELECT * FROM employee 
+viewEmployees = () => {
+    const sql = `SELECT employee.id, employee.first_name, role.title, department_name AS department, role.salary FROM employee  FROM employee LEFT JOIN role ON employee.role_id LEFT JOIN department ON role.department_id = department_id`;
+
+    db.query(sql, (err, rows) =>{
+        if (err) throw err;
+        console.table(rows);
+        userPrompts();
+    }
+}
+
+
 
 // Create new departments 
 //Prompt the user for the "name" of the department
