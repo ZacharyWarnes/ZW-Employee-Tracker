@@ -2,6 +2,7 @@ const mysql = require('mysql2');
 const utils = require('util');
 const inquirer = require('inquirer');
 const cTable = require('console.table');
+const { start } = require('repl');
 
 require('dotenv').config();
 
@@ -22,6 +23,45 @@ const db = mysql.createConnection(
 
   db.query = utils.promisify(db.query);
 
+  
+
+  db.connect(err => {
+    if (err) throw err;
+    start();
+  });
+
+  //Start function for application
+  
+  const start = () => {
+    console.log('Welcome user! Please answer the following question to start')
+    userPrompts();
+  }
+
+  //Inquirer prompts to direct the user to the next function
+
+  const userPrompts = () => {
+    inquirer
+    .prompt ([
+        {
+            type: 'list',
+            name: 'choices',
+            message: 'What would you like to do?',
+            choices: [
+                'View Departments',
+                'View Roles',
+                'View Employees',
+                'Add a Department',
+                'Add a Role',
+                'Add an Employee',
+                'End'
+                
+            ]
+        }
+    ]) .then((answers) =>{
+        
+    })
+  }
+
 // View all departments
 // SELECT * FROM department
 
@@ -41,12 +81,12 @@ const db = mysql.createConnection(
 
 //Create a new role 
 
-function createRole() {
+// function createRole() {
 
-}
+// }
 
 // Get the existing departments from the 'department' table
-
+//View Departments()
     //THEN prompt the user for the "title", "salary", and "department" for the role 
 
         // THEN Run the query
@@ -56,36 +96,36 @@ function createRole() {
 
             // THEN ask the user what they want to do next
 
-const createDepartment = async () => {
+// const createDepartment = async () => {
 
-    const department = await db.query("SELECT * FROM department")
+//     const department = await db.query("SELECT * FROM department")
 
-    const departmentChoices = department.map(department => ({
-        name: department.name,
-        value: department.id
-    }));
+//     const departmentChoices = department.map(department => ({
+//         name: department.name,
+//         value: department.id
+//     }));
 
-    console.log(department);
-    console.log(departmentChoices)
+//     console.log(department);
+//     console.log(departmentChoices)
 
-    const answers = await inquirer.prompt([
-        {
-            message: "What is the name of this department?",
-            name: "name",
-            input: "input"
-        }
+//     const answers = await inquirer.prompt([
+//         {
+//             message: "What is the name of this department?",
+//             name: "name",
+//             input: "input"
+//         }
 
-    ]);
+//     ]);
 
-    await db.query("INSERT INTO department (name) VALUE(?)",
-    [answers.name]
-    );
+//     await db.query("INSERT INTO department (name) VALUE(?)",
+//     [answers.name]
+    // );
 
     //Ask the user what they want to do next
     
-    console.log(answers);
+    // console.log(answers);
 
     //At about 25 minutes on SQL DAY 3 vid
-}
+// }
 
-createDepartment();
+// createDepartment();
