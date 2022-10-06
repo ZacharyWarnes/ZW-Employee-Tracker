@@ -2,7 +2,6 @@ const mysql = require('mysql2');
 const utils = require('util');
 const inquirer = require('inquirer');
 const cTable = require('console.table');
-const { start } = require('repl');
 
 require('dotenv').config();
 
@@ -32,7 +31,7 @@ const db = mysql.createConnection(
 
   //Start function for application
   
-  const start = () => {
+  start = () => {
     console.log('Welcome user! Please answer the following question to start')
     userPrompts();
   }
@@ -58,14 +57,50 @@ const db = mysql.createConnection(
             ]
         }
     ]) .then((answers) =>{
+        const {choices} = answers;
+
+        if (choices === 'View Departments') {
+            viewDepartments();
+        }
+        if (choices === 'View Roles') {
+            viewRoles();
+        }
+        if (choices === 'View Employees') {
+            viewEmployees();
+        }
+        if (choices === 'Add a Department') {
+            createDepartment();
+        }
+        if (choices === 'Add a Role') {
+            createRole();
+        }
+        if (choices === 'Add an Employee') {
+            createEmployee();
+        }
+        if (choices === 'End') {
+            end();
+        };
         
-    })
-  }
+    });
+  };
 
 // View all departments
-// SELECT * FROM department
+viewDepartments = () => {
+    // SELECT * FROM department
+    const sql = `SELECT * FROM department`;
+    db.query(sql, (err, rows) => {
+        if (err) throw err;
+        console.table(rows);
+        userPrompts();
+    });
+};
+
+
 
 // View all roles 
+viewRoles = () => {
+    const sql = `SELECT role.id, role.title, role.`
+}
 //SELECT * FROM role
 
 //View all employees
