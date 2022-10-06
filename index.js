@@ -1,6 +1,11 @@
 const mysql = require('mysql2');
 const utils = require('util');
 const inquirer = require('inquirer');
+const cTable = require('console.table');
+
+require('dotenv').config();
+
+
 
 // Connect to database
 const db = mysql.createConnection(
@@ -9,7 +14,7 @@ const db = mysql.createConnection(
       // MySQL username,
       user: 'root',
       // MySQL password
-      password: 'passwurd1234!',
+      password: process.env.DB_PASSWORD,
       database: 'employees_db'
     },
     console.log(`Connected to the employees_db database.`)
