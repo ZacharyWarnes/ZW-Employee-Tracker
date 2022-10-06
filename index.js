@@ -121,7 +121,8 @@ const viewEmployees = () => {
 
 //Add a Department
 const createDepartment = () => {
-    inquirer.prompt([
+    inquirer
+        .prompt([
         { 
             type: 'input',
             message: 'What is the name of the department you are adding?',
@@ -141,7 +142,27 @@ const createDepartment = () => {
 
 //Create a new role
 
-const createRole = () => {}
+const createRole = () => {
+    inquirer
+        .prompt([
+            {
+                type: 'input',
+                message: 'What is the title of the new role?',
+                name: 'roleTitle'
+            },
+            {
+                type: 'input',
+                message: 'What is the salary for this role?',
+                name: 'roleSalary'
+            },
+            {
+                type: 'list',
+                message: 'What department does this role belong to?',
+                choices: [],
+                name: 'roleDepartment'
+            }
+        ])
+}
 
 
 
