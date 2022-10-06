@@ -52,6 +52,7 @@ const db = mysql.createConnection(
                 'Add a Department',
                 'Add a Role',
                 'Add an Employee',
+                'Update an Employee',
                 'End'
                 
             ]
@@ -85,7 +86,7 @@ const db = mysql.createConnection(
   };
 
 // View all departments
-viewDepartments = () => {
+const viewDepartments = () => {
     const sql = `SELECT * FROM department`;
     db.query(sql, (err, rows) => {
         if (err) throw err;
@@ -97,7 +98,7 @@ viewDepartments = () => {
 
 
 // View all roles 
-viewRoles = () => {
+const viewRoles = () => {
     const sql = `SELECT role.id, role.title, role.department_id , role.salary`
     db.query(sql, (err, rows) => {
         if (err) throw err;
@@ -108,17 +109,35 @@ viewRoles = () => {
 
 
 //View all employees
-viewEmployees = () => {
+const viewEmployees = () => {
     const sql = `SELECT employee.id, employee.first_name, role.title, department_name AS department, role.salary FROM employee  FROM employee LEFT JOIN role ON employee.role_id LEFT JOIN department ON role.department_id = department_id`;
 
     db.query(sql, (err, rows) =>{
         if (err) throw err;
         console.table(rows);
         userPrompts();
-    }
-}
+    });
+};
 
+//Add a Department
+const createDepartment = () => {
+    inquirer.prompt([
+        { 
+            type: 'input',
+            message: 'What is the name of the department you are adding?',
+            name: "newDepartment"
 
+        }
+  ]) .then(answers => {
+    const newDep = `INSERT INTO department (name) VALUES ?`;
+    db.query(newDep, answers.newDepartment, (err,result) => {
+        if (err) throw err;
+        console.log(`New Department Called ${result} Added`);
+        userPrompts();
+    });
+  });
+};
+    
 
 // Create new departments 
 //Prompt the user for the "name" of the department
