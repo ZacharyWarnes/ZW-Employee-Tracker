@@ -130,10 +130,10 @@ const createDepartment = () => {
 
         }
   ]) .then(answers => {
-    const newDep = `INSERT INTO department (name) VALUES (?)`;
-    db.query(newDep, answers.newDepartment, (err,result) => {
+    const sql = `INSERT INTO department (name) VALUES (?)`;
+    db.query(sql, answers.newDepartment, (err,result) => {
         if (err) throw err;
-        console.log(`New Department Called ${result} Added`);
+        console.log(`New Department Added`);
         userPrompts();
     });
   });
@@ -158,11 +158,27 @@ const createRole = () => {
             {
                 type: 'list',
                 message: 'What department does this role belong to?',
-                choices: [],
+                choices: department,
                 name: 'roleDepartment'
             }
         ])
-}
+        .then(answers => { 
+            const params = [answers.title, answers.salary, answers.department];
+            const selectDepartment = `SELECT name, id FROM department`;
+            db.query(selectDepartment, (err,data) => {
+                if (err) throw err;
+                const department = data.map(({name, id}) => ({name: name, value: id}));  
+            })
+            params.push(department);
+            const sql = `INSERT INTO role (title, salary, department_id) VALUES (?,?,?)`;
+
+            db.query(sql, params, (err, result) => {
+                if(err) throw err;
+                console.log('Role has been added');
+                userPrompts();
+            });
+        });
+};
 
 
 
