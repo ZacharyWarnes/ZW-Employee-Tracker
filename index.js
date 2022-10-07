@@ -99,7 +99,7 @@ const viewDepartments = () => {
 
 // View all roles 
 const viewRoles = () => {
-    const sql = `SELECT roles.id, roles.title, roles.department_id , roles.salary FROM roles`
+    const sql = `SELECT roles.id, roles.title, roles.department_id, roles.salary FROM roles`;
     db.query(sql, (err, rows) => {
         if (err) throw err;
         console.table(rows);
@@ -155,27 +155,39 @@ const createRole = () => {
                 message: 'What is the salary for this role?',
                 name: 'roleSalary'
             },
-            // {
-            //     type: 'list',
-            //     message: 'What department does this role belong to?',
-            //     choices: department,
-            //     name: 'roleDepartment'
-            // }
+           
         ])
         .then(answers => { 
             const params = [answers.title, answers.salary, answers.department];
-            // const selectDepartment = `SELECT name, id FROM department`;
-            // db.query(selectDepartment, (err,data) => {
-            //     if (err) throw err;
-            //     const department = data.map(({name, id}) => ({name: name, value: id}));  
-            // })
-            // params.push(department);
-            const sql = `INSERT INTO roles (title, salary, department_id) VALUES (?,?,?)`;
+            const selectDepartment = `SELECT name, id FROM department`;
+            db.query(selectDepartment, (err,data) => {
+                if (err) throw err;
+                //create a new department choice array to choose from
+                const department = data.map(({name, id}) => ({name: name, value: id}));  
 
-            db.query(sql, params, (err, result) => {
-                if(err) throw err;
-                console.log('Role has been added');
-                userPrompts();
+                inquirer
+                    .prompt([
+
+                        {
+                            type: 'list',
+                            message: 'What department does this role belong to?',
+                            choices: department,
+                            name: 'roleDepartment'
+                        }
+
+                     ])
+                     .then(choice => {
+                        const department = choice.department;
+                        params.push(department);
+
+                        const sql = `INSERT INTO roles (title, salary, department_id) VALUES (?,?,?)`;
+
+                        db.query(sql, params, (err, result) => {
+                        if(err) throw err;
+                        console.log('Role has been added');
+                        userPrompts();
+                     });
+               });
             });
         });
 };
