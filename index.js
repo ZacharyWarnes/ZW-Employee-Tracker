@@ -130,7 +130,7 @@ const createDepartment = () => {
 
         }
   ]) .then(answers => {
-    const newDep = `INSERT INTO department (name) VALUES ?`;
+    const newDep = `INSERT INTO department (name) VALUES (?)`;
     db.query(newDep, answers.newDepartment, (err,result) => {
         if (err) throw err;
         console.log(`New Department Called ${result} Added`);
