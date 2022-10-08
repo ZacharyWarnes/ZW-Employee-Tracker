@@ -233,12 +233,33 @@ const createEmployee = () => {
                     db.query(selectManager, (err, data) =>{
                         if(err) throw err;
                         const manager = data.map(({id, first_name, last_name})=> ({name: first_name + "" + last_name, value: id}));
-                    })
-                    })
 
-            })
-        })
-}
+                    inquirer
+                        .prompt([
+                            {
+                                type: 'list',
+                                message: "Who is the employee's manager?",
+                                choices: managers,
+                                name: 'manager'
+                            }
+                        ])
+                        .then(managerChoice => {
+                            const manager = managerChoice.manager;
+                            params.push(manager);
+                            const sql = `INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?,?,?,?)`;
+
+                            db.query(sql, (err,result) => {
+                                if(err) throw err;
+                                console.log("New Employee Added");
+                                userPrompts();
+                            });
+                        });
+                    });
+                });
+
+            });
+        });
+};
 
 // Get the existing departments from the 'department' table
 //View Departments()
