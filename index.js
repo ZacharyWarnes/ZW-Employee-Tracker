@@ -141,7 +141,6 @@ const createDepartment = () => {
     
 
 //Create a new role
-
 const createRole = () => {
     inquirer
         .prompt([
@@ -158,7 +157,7 @@ const createRole = () => {
            
         ])
         .then(answers => { 
-            const params = [answers.title, answers.salary, answers.department];
+            const params = [answers.roleTitle, answers.roleSalary];
             const selectDepartment = `SELECT name, id FROM department`;
             db.query(selectDepartment, (err,data) => {
                 if (err) throw err;
@@ -176,9 +175,9 @@ const createRole = () => {
                         }
 
                      ])
-                     .then(choice => {
-                        const department = choice.department;
-                        params.push(department);
+                     .then(departmentChoice => {
+                        const newDepartment = departmentChoice.department;
+                        params.push(newDepartment);
 
                         const sql = `INSERT INTO roles (title, salary, department_id) VALUES (?,?,?)`;
 
@@ -192,7 +191,54 @@ const createRole = () => {
         });
 };
 
+//Add a new employee
+const createEmployee = () => {
+    inquirer 
+        .prompt([
+            {
+                 type:"input",
+                 message: "What is the employee's first name?",
+                 name: 'fName'
+            },
+            {
+                type: "input",
+                message: "What is the employee's last name?",
+                name: 'lName'
+            }
+        ])
+        .then(answers => {
+            const params = [answers.fName, answers.lName];
+            const selectRole = `SELECT role.id, role.title FROM role`;
 
+            db.query(selectRole, (err, data) => {
+                if(err) throw err;
+                const role = data.map(({id, title}) => ({name: title, value: id}));
+
+                inquirer
+                    .prompt([
+                        {
+                            type:"list",
+                            message: "What is the employee's role?",
+                            choices: role,
+                            name: "empRole"
+                        }
+                    ])
+                    .then(roleChoice =>{
+                        const employeeRole = roleChoice.role;
+                        params.push(employeeRole);
+
+
+                
+                    const selectManager = `SELECT * FROM employee`;
+                    db.query(selectManager, (err, data) =>{
+                        if(err) throw err;
+                        const manager = data.map(({id, first_name, last_name})=> ({name: first_name + "" + last_name, value: id}));
+                    })
+                    })
+
+            })
+        })
+}
 
 // Get the existing departments from the 'department' table
 //View Departments()
