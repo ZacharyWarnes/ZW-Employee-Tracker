@@ -211,7 +211,7 @@ const createEmployee = () => {
         ])
         .then(answers => {
             const params = [answers.fName, answers.lName];
-            const selectRole = `SELECT role.id, role.title FROM role`;
+            const selectRole = `SELECT roles.id, roles.title FROM roles`;
 
             db.query(selectRole, (err, data) => {
                 if(err) throw err;
@@ -235,7 +235,7 @@ const createEmployee = () => {
                     const selectManager = `SELECT * FROM employee`;
                     db.query(selectManager, (err, data) =>{
                         if(err) throw err;
-                        const manager = data.map(({id, first_name, last_name})=> ({name: first_name + "" + last_name, value: id}));
+                        const managers = data.map(({id, first_name, last_name})=> ({name: first_name + "" + last_name, value: id}));
 
                     inquirer
                         .prompt([
