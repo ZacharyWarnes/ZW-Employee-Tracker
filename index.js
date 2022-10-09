@@ -322,17 +322,7 @@ const updateEmployee = () => {
     }); 
 };
 
-// Get the existing departments from the 'department' table
-//View Departments()
-    //THEN prompt the user for the "title", "salary", and "department" for the role 
-
-        // THEN Run the query
-        //INSERT INTO role (title, salary, department_id)
-        //VALUES ("Manager:ex" 120000:ex, 1:ex)
-        // replace all examples above w/ question marks for query method
-
-            // THEN ask the user what they want to do next
-
-
-
-// createDepartment();
+const end = () => {
+    console.log("Thank you for using this program");
+    return;
+}
