@@ -78,6 +78,9 @@ const db = mysql.createConnection(
         if (choices === 'Add an Employee') {
             createEmployee();
         }
+        if (choices === 'Update an Employee') {
+            updateEmployee();
+        }
         if (choices === 'End') {
             end();
         };
@@ -259,6 +262,64 @@ const createEmployee = () => {
 
             });
         });
+};
+
+//Code for updating an existing employee
+const updateEmployee = () => {
+    const selectEmp = `SELECT * FROM employee`;
+    db.query(selectEmp, (err, data) => {
+        if(err) throw err;
+        const employees = data.map(({id, first_name, last_name}) => ({name: first_name + " " + last_name, value: id}));
+
+        inquirer
+            .prompt([
+                {
+                    type: 'list',
+                    message: "Which employee profile are you updating?",
+                    choices: employees,
+                    name: 'updatedEmp'
+                }
+            ])
+            .then(empChoice => {
+                const employee = empChoice.updatedEmp;
+                //empty array to push updates
+                const params = [];
+                params.push(employee);
+
+                const selectEmpRole = `SELECT * FROM roles`
+                db.query(selectEmpRole, (err, data) => {
+                    if (err) throw err;
+                    const role = data.map(({id, title}) => ({name: title, value: id}));
+
+                    inquirer
+                        .prompt([
+                            {
+                                type:'list',
+                                message: "What is the employee's updated role?",
+                                choices: role,
+                                name: 'updatedRole'
+
+                            }
+                        ])
+                        .then(empRoleChoice => {
+                            const role = empRoleChoice.updatedRole
+                            params.push(role);
+
+                            let employee = params[0]
+                            params[0] = role
+                            params[1] = employee
+
+                            const sql = `UPDATE employee SET role_id = ? WHERE id = ?`;
+                            db.query(sql, params, (err, result) => {
+                                if(err) throw err;
+                                console.log("Employee updated");
+                                userPrompts();
+                            });
+
+                        });
+                });
+            });
+    }); 
 };
 
 // Get the existing departments from the 'department' table
