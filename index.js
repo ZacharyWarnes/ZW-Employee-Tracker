@@ -113,7 +113,7 @@ const viewRoles = () => {
 
 //View all employees
 const viewEmployees = () => {
-    const sql = `SELECT employee.id, employee.first_name, role.title, department_name AS department, roles.salary FROM employee  FROM employee LEFT JOIN roles ON employee.roles_id LEFT JOIN department ON roles.department_id = department_id`;
+    const sql = `SELECT employee.id, employee.first_name, employee.last_name, roles.title, department.name AS department, roles.salary FROM employee LEFT JOIN roles ON employee.role_id LEFT JOIN department ON roles.department_id = department_id`;
 
     db.query(sql, (err, rows) =>{
         if (err) throw err;
