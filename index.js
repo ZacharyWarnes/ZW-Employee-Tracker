@@ -251,7 +251,7 @@ const createEmployee = () => {
                             params.push(manager);
                             const sql = `INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?,?,?,?)`;
 
-                            db.query(sql, (err,result) => {
+                            db.query(sql, params, (err,result) => {
                                 if(err) throw err;
                                 console.log("New Employee Added");
                                 userPrompts();
