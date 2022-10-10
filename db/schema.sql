@@ -4,7 +4,7 @@ CREATE DATABASE employees_db;
 USE employees_db;
 
 CREATE TABLE department (
-    id INT NOT NULL AUTO_INCREMENT,
+    id INT AUTO_INCREMENT,
     name VARCHAR(30) NOT NULL,
     PRIMARY KEY (id)
 );
@@ -17,7 +17,7 @@ CREATE TABLE roles (
     PRIMARY KEY (id),
     FOREIGN KEY (department_id)
     REFERENCES department(id)
-    ON DELETE CASCADE
+    ON DELETE SET NULL
 );
 
 CREATE TABLE employee (
@@ -29,9 +29,9 @@ CREATE TABLE employee (
     PRIMARY KEY (id),
     FOREIGN KEY (role_id)
     REFERENCES roles(id)
-    ON DELETE CASCADE,
+    ON DELETE SET NULL,
     FOREIGN KEY (manager_id)
     REFERENCES employee(id)
-    ON DELETE CASCADE
+    ON DELETE SET NULL
     
 );

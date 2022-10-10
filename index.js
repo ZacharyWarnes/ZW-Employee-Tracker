@@ -242,7 +242,7 @@ const createEmployee = () => {
                             {
                                 type: 'list',
                                 message: "Who is the employee's manager?",
-                                choices: managers,
+                                choices: ['none', managers],
                                 name: 'manager'
                             }
                         ])
