@@ -102,7 +102,7 @@ const viewDepartments = () => {
 
 // View all roles 
 const viewRoles = () => {
-    const sql = `SELECT roles.id, roles.title, roles.department_id, roles.salary FROM roles`;
+    const sql = `SELECT * FROM roles`;
     db.query(sql, (err, rows) => {
         if (err) throw err;
         console.table(rows);
@@ -113,7 +113,7 @@ const viewRoles = () => {
 
 //View all employees
 const viewEmployees = () => {
-    const sql = `SELECT employee.id, employee.first_name, employee.last_name, roles.title, department.name AS department, roles.salary FROM employee LEFT JOIN roles ON employee.role_id LEFT JOIN department ON roles.department_id = department_id`;
+    const sql = `SELECT * FROM employee`;
 
     db.query(sql, (err, rows) =>{
         if (err) throw err;
@@ -242,7 +242,7 @@ const createEmployee = () => {
                             {
                                 type: 'list',
                                 message: "Who is the employee's manager?",
-                                choices: ['none', managers],
+                                choices: managers,
                                 name: 'manager'
                             }
                         ])
