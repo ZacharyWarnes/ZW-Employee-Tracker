@@ -2,6 +2,7 @@ const mysql = require('mysql2');
 const utils = require('util');
 const inquirer = require('inquirer');
 const cTable = require('console.table');
+const { log } = require('console');
 
 require('dotenv').config();
 
@@ -227,7 +228,7 @@ const createEmployee = () => {
                         }
                     ])
                     .then(roleChoice =>{
-                        const employeeRole = roleChoice.role;
+                        const employeeRole = roleChoice.empRole;
                         params.push(employeeRole);
 
 
