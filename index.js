@@ -122,7 +122,8 @@ const viewEmployees = () => {
                         employee.last_name,
                         roles.title,
                         department.name AS department,
-                        roles.salary
+                        roles.salary,
+                        employee.manager_id
                  FROM employee
                         LEFT JOIN roles ON employee.role_id = roles.id
                         LEFT JOIN department ON roles.department_id =department.id`;

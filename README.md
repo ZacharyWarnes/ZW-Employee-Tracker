@@ -26,7 +26,7 @@ Install this application by cloning the this repository to your local machine an
 
  * Open this program in your code editor and then run "npm install" in your terminal to install all dependencies.
  * Make sure to update the .env file with your MySql username and password.
- * Open MySql and run your schema.sql and your seeds.sql in this order by command "source schema.sql" and "source seeds.sql". Quit your SQL before moving to the next step
+ * Open MySql by opening your terminal on these database files and running "mysql -u root -p". Enter your password. Run your schema.sql and your seeds.sql in this order by command "source schema.sql" and "source seeds.sql". Quit your SQL before moving to the next step by entering command "quit". 
  * Open your terminal on index.js and run command "node index.js" to start the program.
  
 
