@@ -103,7 +103,10 @@ const viewDepartments = () => {
 
 // View all roles 
 const viewRoles = () => {
-    const sql = `SELECT * FROM roles`;
+    const sql = `SELECT roles.id, 
+                        roles.title, 
+                        department.name AS department FROM roles
+                 INNER JOIN department ON roles.department_id = department.id`;
     db.query(sql, (err, rows) => {
         if (err) throw err;
         console.table(rows);
@@ -114,7 +117,15 @@ const viewRoles = () => {
 
 //View all employees
 const viewEmployees = () => {
-    const sql = `SELECT * FROM employee`;
+    const sql = `SELECT employee.id,
+                        employee.first_name,
+                        employee.last_name,
+                        roles.title,
+                        department.name AS department,
+                        roles.salary
+                 FROM employee
+                        LEFT JOIN roles ON employee.role_id = roles.id
+                        LEFT JOIN department ON roles.department_id =department.id`;
 
     db.query(sql, (err, rows) =>{
         if (err) throw err;
@@ -180,7 +191,7 @@ const createRole = () => {
 
                      ])
                      .then(departmentChoice => {
-                        const newDepartment = departmentChoice.department;
+                        const newDepartment = departmentChoice.roleDepartment;
                         params.push(newDepartment);
 
                         const sql = `INSERT INTO roles (title, salary, department_id) VALUES (?,?,?)`;
